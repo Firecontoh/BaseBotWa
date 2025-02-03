@@ -1,34 +1,46 @@
-const prefix = '.';
+/*
+   * Base Simpel
+   * Created By Dii Coders
+*/
 
 module.exports = async (client, m) => {
-    try {
-        const body = (
-            (m.type === 'chat' && m.body) ||
-            (m.type === 'image' && m.caption) ||
-            (m.type === 'video' && m.caption) ||
-            (m.type === 'document' && m.caption) ||
-            (m.type === 'buttons_response' && m.selectedButtonId) ||
-            (m.type === 'list_response' && m.singleSelectReply.selectedRowId)
-        ) || '';
+try {
+const body = (
+(m.mtype === 'conversation' && m.message.conversation) ||
+(m.mtype === 'imageMessage' && m.message.imageMessage.caption) ||
+(m.mtype === 'documentMessage' && m.message.documentMessage.caption) ||
+(m.mtype === 'videoMessage' && m.message.videoMessage.caption) ||
+(m.mtype === 'extendedTextMessage' && m.message.extendedTextMessage.text) ||
+(m.mtype === 'buttonsResponseMessage' && m.message.buttonsResponseMessage.selectedButtonId) ||
+(m.mtype === 'templateButtonReplyMessage' && m.message.templateButtonReplyMessage.selectedId)
+) ? (
+(m.mtype === 'conversation' && m.message.conversation) ||
+(m.mtype === 'imageMessage' && m.message.imageMessage.caption) ||
+(m.mtype === 'documentMessage' && m.message.documentMessage.caption) ||
+(m.mtype === 'videoMessage' && m.message.videoMessage.caption) ||
+(m.mtype === 'extendedTextMessage' && m.message.extendedTextMessage.text) ||
+(m.mtype === 'buttonsResponseMessage' && m.message.buttonsResponseMessage.selectedButtonId) ||
+(m.mtype === 'templateButtonReplyMessage' && m.message.templateButtonReplyMessage.selectedId)
+) : '';
 
-        const prefixRegex = /^[°zZ#$@*+,.?=''():√%!¢£¥€π¤ΠΦ_&><`™©®Δ^βα~¦|/\\©^]/;
-        const isCmd = body.startsWith(prefix);
-        const command = isCmd ? body.slice(prefix.length).trim().split(' ').shift().toLowerCase() : '';
+const budy = (typeof m.text === 'string') ? m.text : '';
+const prefixRegex = /^[°zZ#$@*+,.?=''():√%!¢£¥€π¤ΠΦ_&><`™©®Δ^βα~¦|/\\©^]/;
+const prefix = prefixRegex.test(body) ? body.match(prefixRegex)[0] : '.';
+const isCmd = body.startsWith(prefix);
+const command = isCmd ? body.slice(prefix.length).trim().split(' ').shift().toLowerCase() : '';
+const args = body.trim().split(/ +/).slice(1)
+const text = q = args.join(" ")
+const sender = m.key.fromMe ? (client.user.id.split(':')[0]+'@s.whatsapp.net' || client.user.id) : (m.key.participant || m.key.remoteJid)
+const botNumber = await client.decodeJid(client.user.id)
+const senderNumber = sender.split('@')[0]
 
-        if (command === "tombol") {
-             const buttons = [
-               {buttonId: 'id1', buttonText: {displayText: 'Tombol 1'}, type: 1},
-               {buttonId: 'id2', buttonText: {displayText: 'Tombol 2'}, type: 1},
-            ];
-           const buttonMessage = {
-            text: "Pilih salah satu tombol:",
-            buttons: buttons,
-            headerType: 1
-           }
-            client.sendMessage(m.from, buttonMessage, {quoted: m});
-        }
-
-    } catch (err) {
-        console.error("Error:", err);
-    }
-};
+switch (command) {
+case ".menu": {
+m.reply("menu Tes")
+}
+break
+}
+  } catch (err) {
+    console.log(err)
+  }
+}
