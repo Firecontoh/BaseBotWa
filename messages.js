@@ -35,8 +35,8 @@ const botNumber = await client.decodeJid(client.user.id)
 const senderNumber = sender.split('@')[0]
 
 switch (command) {
-case "base": {
-m.reply("base")
+case ".menu": {
+m.reply("menu Tes")
 }
 break
 }
